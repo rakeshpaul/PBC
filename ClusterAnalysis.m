@@ -144,9 +144,9 @@ for i=1:sz
 end;
 toc
 
-% Test the Population created with rest of the samples
+% Test the Population again with training samples to identify the classes
 class = zeros(1,sz);
-test = index(sz+1:end);
+test = index(1:sz);
 tL = length(test);
 pL = length(p);
 
@@ -167,36 +167,59 @@ for i=1:tL
     end;
 end;
 
-% Display appropriate classes for the test samples
-clc
-for k=0:pL
-    if k == 0
-        if isempty(find(test(class == k), 1))
-            disp('NO UNIDENTIFIABLE DATA SAMPLES: ');
-        else
-            disp('UNIDENTIFIED DATA SAMPLES: ');
-            disp(sort(test(class == k)))
-        end
-    else
-        disp('   ');
-        disp(['CLASS ' int2str(k) ' SAMPLES']);
-        Y = sort(test(class == k));
-        if isempty(Y)
-            disp('NO SAMPLES, UNRESPONSIVE POPULATION ');
-        else
-            disp(Y);
-        end
-        disp('   ');
-        disp('POPULATION CENTER: ');
-        disp((p(k).center));
-        disp('   ');
-    end;
-end;
-
-% Plot evolution of population
-plot(pLength, 'r.:');
-title('Evolution of Population during clustering')
-xlabel('No of Samples');
-ylabel('No of Populations');
-axis([0 sz 0 max(pLength)+1]);
+% % Test the Population created with rest of the samples
+% class = zeros(1,sz);
+% test = index(sz+1:end);
+% tL = length(test);
+% pL = length(p);
+% 
+% disp('   ');
+% disp('   ');
+% disp('        CLUSTERING TESTING SAMPLES, PLEASE WAIT!');
+% for i=1:tL
+%     input = rf(test(i),:)';
+%     dist = zeros(pL,1);
+%     for k=1:pL
+%         ft = p(k).evaluate(input);
+%         d = spikedist(p(k).center, ft)/length(p(k).center);
+%         dist(k) = d;
+%     end;
+%     m = find(dist == max(dist));
+%     if ~isempty(find(dist > 0,1))
+%         class(i) = m(1);
+%     end;
+% end;
+% 
+% % Display appropriate classes for the test samples
+% clc
+% for k=0:pL
+%     if k == 0
+%         if isempty(find(test(class == k), 1))
+%             disp('NO UNIDENTIFIABLE DATA SAMPLES: ');
+%         else
+%             disp('UNIDENTIFIED DATA SAMPLES: ');
+%             disp(sort(test(class == k)))
+%         end
+%     else
+%         disp('   ');
+%         disp(['CLASS ' int2str(k) ' SAMPLES']);
+%         Y = sort(test(class == k));
+%         if isempty(Y)
+%             disp('NO SAMPLES, UNRESPONSIVE POPULATION ');
+%         else
+%             disp(Y);
+%         end
+%         disp('   ');
+%         disp('POPULATION CENTER: ');
+%         disp((p(k).center));
+%         disp('   ');
+%     end;
+% end;
+% 
+% % Plot evolution of population
+% plot(pLength, 'r.:');
+% title('Evolution of Population during clustering')
+% xlabel('No of Samples');
+% ylabel('No of Populations');
+% axis([0 sz 0 max(pLength)+1]);
 
